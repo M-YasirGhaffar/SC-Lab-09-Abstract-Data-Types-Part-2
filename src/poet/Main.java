@@ -21,8 +21,9 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         final GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
-        final String input = "Test the system.";
+        final String input = "Seek to explore new and exciting synergies!";
         System.out.println(input + "\n>>>\n" + nimoy.poem(input));
+        System.out.println("\n>>>\n" + nimoy.toString());
     }
     
 }
