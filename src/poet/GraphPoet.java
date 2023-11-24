@@ -4,8 +4,13 @@
 package poet;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner; 
 import java.io.IOException;
 
+import graph.ConcreteEdgesGraph;
+import graph.ConcreteVerticesGraph;
 import graph.Graph;
 
 /**
@@ -52,14 +57,14 @@ import graph.Graph;
  */
 public class GraphPoet {
     
-    private final Graph<String> graph = Graph.empty();
+    private final Graph<String> graph = new ConcreteEdgesGraph();
     
     // Abstraction function:
-    //   TODO
+    //   Uses a graph to create a poet
     // Representation invariant:
-    //   TODO
+    //   Contains a set of edges connected through vertices
     // Safety from rep exposure:
-    //   TODO
+    //   graph is immutable as it is created using final Strings
     
     /**
      * Create a new poet with the graph from corpus (as described above).
@@ -68,7 +73,34 @@ public class GraphPoet {
      * @throws IOException if the corpus file cannot be found or read
      */
     public GraphPoet(File corpus) throws IOException {
-        throw new RuntimeException("not implemented");
+    	String pword, word="";
+        Scanner sc = new Scanner(corpus);
+        boolean first= true;;
+        while (sc.hasNext()) {
+        	if (first) {
+        		word = sc.next().toLowerCase();
+        		first= false;
+        	}
+        	else {
+        		pword=word;
+        		word = sc.next().toLowerCase();
+        		
+        		Map<String, Integer> sources = new HashMap<String, Integer>();
+        		sources = graph.sources(word);
+        		if (sources.containsKey(pword)) {
+        			int w = sources.get(pword);
+        			graph.set(pword, word, w+1);
+        		}
+        		else {
+        			graph.set(pword, word, 1);
+        		}
+        		
+        	}
+        	
+        }
+        
+        
+        sc.close();
     }
     
     // TODO checkRep
@@ -80,9 +112,46 @@ public class GraphPoet {
      * @return poem (as described above)
      */
     public String poem(String input) {
-        throw new RuntimeException("not implemented");
+    	String output="";
+    	String pword, word="";
+        Scanner sc = new Scanner(input);
+        boolean first= true;;
+        while (sc.hasNext()) {
+        	if (first) {
+        		word = sc.next().toLowerCase();
+        		first= false;
+        	}
+        	else {
+        		output+=word + " ";
+        		pword=word;
+        		word = sc.next().toLowerCase();
+        		
+        		Map<String, Integer> sources = new HashMap<String, Integer>();
+        		
+        		sources = graph.sources(word);
+        		boolean found= false;
+        		for (String key: sources.keySet()) {
+        			Map<String, Integer> sources2 = new HashMap<String, Integer>();
+        			sources2 = graph.sources(key);
+        			if (sources2.containsKey(pword)) {
+            			output += key+ " ";
+            			found=true;
+            			break;
+            		}
+        		}
+        	}
+        	
+        }
+        output+=word;
+        
+        
+        sc.close();
+        return output;
     }
     
     // TODO toString()
+    public String toString() {
+    	return graph.toString();
+    }
     
 }
