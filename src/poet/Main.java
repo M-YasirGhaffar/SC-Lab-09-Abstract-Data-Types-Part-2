@@ -9,10 +9,11 @@ import java.io.IOException;
 /**
  * Example program using GraphPoet.
  * 
- * <p>PS2 instructions: you are free to change this example class.
+ * <p>
+ * PS2 instructions: you are free to change this example class.
  */
 public class Main {
-    
+
     /**
      * Generate example poetry.
      * 
@@ -21,9 +22,10 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         final GraphPoet nimoy = new GraphPoet(new File("src/poet/mugar-omni-theater.txt"));
-        final String input = "Seek to explore new and exciting synergies!";
-        System.out.println(input + "\n>>>\n" + nimoy.poem(input));
+        final String input = "Seek to explore new and exciting synergies!!";
+        System.out.println(input + "\n>>\n" + nimoy.poem(input));
         System.out.println("\n>>>\n" + nimoy.toString());
+
     }
-    
+
 }
